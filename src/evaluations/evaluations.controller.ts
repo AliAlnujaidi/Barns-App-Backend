@@ -8,7 +8,7 @@ export class EvaluationsController {
 
   @Get()
   getEvaluations() {
-    return ['hello'];
+    return 'getEvaluaions';
   }
 
   @Get(':id')
