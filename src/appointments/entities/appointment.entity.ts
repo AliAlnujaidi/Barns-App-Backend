@@ -1,8 +1,15 @@
+import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
+
+@Entity()
 export class Appointment {
-  id: number;
-  trainee: string;
-  coach: string;
-  //date: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
+  @Column()
+  trainee: number;
+  @Column()
+  coach: number;
+  @Column()
   duration: number;
-//  startingAt: number;
+  @Column()
+  barn: number;
 }
