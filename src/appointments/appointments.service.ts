@@ -14,7 +14,11 @@ export class AppointmentsService {
     return this.appointmentRepository.find();
   }
 
-  findCoachAppointments(coach: number) {
+  findCoachAppointments(id: number) {
+    return this.appointmentRepository.findBy({coach:id})
+  }
+  findTraineeAppointments(id: number) {
+    return this.appointmentRepository.findBy({trainee:id})
   }
 
   async createAppointment(appointment: CreateAppointmentDto) {

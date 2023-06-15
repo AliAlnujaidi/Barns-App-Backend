@@ -1,9 +1,7 @@
 export class CreateAppointmentDto {
-  id: number;
   trainee: number;
   coach: number;
-//date: number;
+  date: string;
   duration: number;
-//startingAt: number;
   barn: number;
   }
