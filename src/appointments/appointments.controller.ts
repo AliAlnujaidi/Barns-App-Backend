@@ -7,7 +7,6 @@ export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) {}
   @Get()
   getAppointments() {
-    console.log('ss')
     return this.appointmentsService.findAll();
   }
 
