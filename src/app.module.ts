@@ -7,6 +7,7 @@ import * as Joi from '@hapi/joi';
 import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { BarnsModule } from './barns/barns.module';
+import { AuthenticationModule } from './authentication/authentication.module';
 
 @Module({
   imports: [AppointmentsModule, DatabaseModule, ConfigModule.forRoot({
@@ -18,7 +19,7 @@ import { BarnsModule } from './barns/barns.module';
       POSTGRES_DB: Joi.string().required(),
       PORT: Joi.number(),
     })
-  }), UsersModule, BarnsModule],
+  }), UsersModule, BarnsModule, AuthenticationModule],
   controllers: [AppController],
   providers: [AppService],
 })
