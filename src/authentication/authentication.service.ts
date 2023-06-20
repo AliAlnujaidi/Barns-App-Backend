@@ -4,9 +4,9 @@ import { UsersService } from 'src/users/users.service';
 @Injectable()
 export class AuthenticationService {
     constructor(
-        private readonly usersService: UsersService
+    //    private readonly usersService: UsersService
       ) {}
-     
+  /*   
       public async register(registrationData: RegisterDto) {
         const hashedPassword = await bcrypt.hash(registrationData.password, 10);
         try {
@@ -39,5 +39,5 @@ export class AuthenticationService {
         } catch (error) {
           throw new HttpException('Wrong credentials provided', HttpStatus.BAD_REQUEST);
         }
-      }
+      }*/
 }
