@@ -42,7 +42,7 @@ export class PublicFilesService {
         await this.createBucket(bucketName);
       }
     }
-    console.log(key)
+
     return await s3.putObject({
       Bucket: `${bucketName}`,
       Body: file.buffer,
@@ -68,7 +68,9 @@ export class PublicFilesService {
   }
 
   validateFile(file: Express.Multer.File) {
-    if (file.mimetype.includes('jpeg') || file.mimetype.includes('pdf'))
+    const jpg = Buffer.from([255,216,255,224]);
+    const pdf = Buffer.from([0x25,0x50,0x44,0x46]);
+    if (file.buffer.subarray(0,4).equals(jpg) || file.buffer.subarray(0,4).equals(pdf))
       return true
     return false
   }
