@@ -5,16 +5,22 @@ import { Exclude } from 'class-transformer';
 export class User {
     @PrimaryGeneratedColumn()
     public id: number;
+
     @Column()
     fname: string;
+
     @Column()
     lname: string;
+
     @Column({ nullable: true, default: 'trainee' })
     role: string;
+
     @Column()
     phone: string;
+
     @Column({unique: true})
     email: string;
+    
     @Exclude()
     @Column()
     password: string;

@@ -10,6 +10,8 @@ import { S3 } from 'aws-sdk';
 export class PublicFilesService {
   private config: S3.ClientConfiguration;
   constructor(
+    @InjectRepository(PublicFile)
+    private publicFilesRepository: Repository<PublicFile>,
     private readonly configService: ConfigService) {
     this.config = {
       endpoint: this.configService.get('MINIO_ENDPOINT'),
@@ -21,9 +23,11 @@ export class PublicFilesService {
       },
     }
   }
-  async getFile(){
+  async getFile() {
     const s3 = new S3(this.config);
-    return await s3.getObject({Bucket: 'public-bucket' , Key:'d8cc37324ea7d52613b8033f1500b302'}).promise();
+    const response = await s3.getSignedUrl('getObject', { Bucket: 'public-bucket', Key: 'b5b42028-7544-4089-8b4d-8d3264b1e8c2-undefined' });
+    
+    return response
   }
 
   async uploadPublicFile(bucketName: string, file: Express.Multer.File) {
@@ -32,7 +36,7 @@ export class PublicFilesService {
       return 'invalid file'
     }
     const s3 = new S3(this.config);
-    const key = uuid();
+    const key = `${uuid()}-${file.filename}`
     //if no bucket name give assign to public-bucket, else check if bucket exists.
     if (!bucketName) {
       bucketName = 'public-bucket';
@@ -42,12 +46,13 @@ export class PublicFilesService {
         await this.createBucket(bucketName);
       }
     }
-
-    return await s3.putObject({
+    const {ETag} = await s3.putObject({
       Bucket: `${bucketName}`,
       Body: file.buffer,
       Key: `${key}`
-    }).promise();
+    }).promise()
+
+    return key;
   }
 
 
@@ -68,9 +73,9 @@ export class PublicFilesService {
   }
 
   validateFile(file: Express.Multer.File) {
-    const jpg = Buffer.from([255,216,255,224]);
-    const pdf = Buffer.from([0x25,0x50,0x44,0x46]);
-    if (file.buffer.subarray(0,4).equals(jpg) || file.buffer.subarray(0,4).equals(pdf))
+    const jpg = Buffer.from([255, 216, 255, 224]);
+    const pdf = Buffer.from([0x25, 0x50, 0x44, 0x46]);
+    if (file.buffer.subarray(0, 4).equals(jpg) || file.buffer.subarray(0, 4).equals(pdf))
       return true
     return false
   }

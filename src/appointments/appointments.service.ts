@@ -24,6 +24,6 @@ export class AppointmentsService {
   async createAppointment(appointment: CreateAppointmentDto) {
     const newAppointment = await this.appointmentRepository.create(appointment);
     await this.appointmentRepository.save(newAppointment);
-    return "newAppointment";
+    return newAppointment;
   }
 }

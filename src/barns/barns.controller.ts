@@ -1,20 +1,26 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { BarnsService } from './barns.service';
 import { CreateBarnDto } from './dto/create-barn.dto';
 import { UpdateBarnDto } from './dto/update-barn.dto';
-
+import { FileInterceptor } from '@nestjs/platform-express';
 @Controller('barns')
 export class BarnsController {
   constructor(private readonly barnsService: BarnsService) {}
 
-  @Post()
+  @Get()
+  findAll() {
+    return this.barnsService.findAll();
+  }
+
+  @Post('add')
   create(@Body() createBarnDto: CreateBarnDto) {
     return this.barnsService.create(createBarnDto);
   }
 
-  @Get()
-  findAll() {
-    return this.barnsService.findAll();
+  @Post('photo')
+  @UseInterceptors(FileInterceptor('file'))
+  addPhoto(@Body('barn') barn: number, @UploadedFile() file: Express.Multer.File) {
+    return this.barnsService.addPhotos(barn,file);
   }
 
   @Get(':id')

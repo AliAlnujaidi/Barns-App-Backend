@@ -22,6 +22,7 @@ import { MinioModule } from 'nestjs-minio-client';
     // }),
   ],
   providers: [PublicFilesService],
-  controllers: [PublicFilesController]
+  controllers: [PublicFilesController],
+  exports: [PublicFilesService]
 })
 export class PublicFilesModule {}

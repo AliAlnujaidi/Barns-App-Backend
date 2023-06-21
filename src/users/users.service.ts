@@ -13,10 +13,19 @@ export class UsersService {
     @InjectRepository(User)
     private usersRepository: Repository<User>
   ) { }
+
   async getByEmail(email: string) {
     const user = await this.usersRepository.findBy({ email: email });
     if (user) {
-      return user;
+      return user[0];
+    }
+    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+  }
+
+  async getById(id: number) {
+    const user = await this.usersRepository.findBy({ id: id });
+    if (user) {
+      return user[0];
     }
     throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
   }
