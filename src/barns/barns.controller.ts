@@ -11,17 +11,23 @@ export class BarnsController {
   findAll() {
     return this.barnsService.findAll();
   }
-
+  //requiere admin
   @Post('add')
   create(@Body() createBarnDto: CreateBarnDto) {
     return this.barnsService.create(createBarnDto);
   }
-
+  //requiere admin
   @Post('photo')
   @UseInterceptors(FileInterceptor('file'))
   addPhoto(@Body('barn') barn: number, @UploadedFile() file: Express.Multer.File) {
     return this.barnsService.addPhotos(barn,file);
   }
+
+  @Delete('photo')
+  deletePhotos(@Body('barn') barn: number, @Body('photoId') photoId: number) {
+    return this.barnsService.deletePhotos(barn,photoId);
+  }
+
 
   @Get(':id')
   findOne(@Param('id') id: string) {

@@ -1,6 +1,8 @@
 import { Appointment } from 'src/appointments/entities/appointment.entity';
+import { Coach } from 'src/coaches/entities/coach.entity';
 import { PublicFile } from 'src/publicFiles/entities/publicFile.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { BarnPhoto } from './barnPhoto.entity';
 
 @Entity()
 export class Barn {
@@ -15,8 +17,10 @@ export class Barn {
 
     @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.barn)
     public appointments: Appointment[];
+    
+    @OneToMany(() => BarnPhoto, (barnPhoto: BarnPhoto) => barnPhoto.barn, {eager: true, nullable:true})
+    public photos: BarnPhoto[];
 
-    @OneToMany(() => PublicFile, (publicFile: PublicFile) => publicFile.barn, {eager: true})
-    public photos: PublicFile[];
-
+    @OneToMany(() => Coach, (coach: Coach) => coach.barn, {eager: true})
+    public coaches: Coach[];
 }

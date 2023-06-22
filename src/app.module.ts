@@ -10,6 +10,7 @@ import { BarnsModule } from './barns/barns.module';
 import { AuthenticationModule } from './authentication/authentication.module';
 import { MinioClientModule } from './minio/minio-client.module';
 import { PublicFilesModule } from './publicFiles/publicFiles.module';
+import { CoachModule } from './coaches/coach.module';
 
 @Module({
   imports: [
@@ -32,7 +33,7 @@ import { PublicFilesModule } from './publicFiles/publicFiles.module';
         JWT_EXPIRATION_TIME: Joi.string().required(),
       }),
       isGlobal: true
-    }), UsersModule, BarnsModule, AuthenticationModule, AppointmentsModule, DatabaseModule, PublicFilesModule],
+    }), UsersModule, CoachModule, BarnsModule, AuthenticationModule, AppointmentsModule, DatabaseModule, PublicFilesModule],
   controllers: [AppController],
   providers: [AppService],
 })

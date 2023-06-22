@@ -8,32 +8,27 @@ export class AppointmentsController {
   constructor(private readonly appointmentsService: AppointmentsService) { }
   @Get()
   getAppointments() {
-    const date: Date = new Date();
     return this.appointmentsService.findAll();
   }
 
-  @Get('/coach/:id')
-  getCoachAppointments(@Param('id') user: string) {
-    return this.appointmentsService.findCoachAppointments(+user);
+  @Get('/:role/:id')
+  getUserAppointments(@Param('id') id: string, @Param('role') role: string) {
+    return this.appointmentsService.findUserAppointments(+id, role);
   }
 
-  @Get('/trainee/:id')
-  getTraineeAppointments(@Param('id') user: string) {
-    return this.appointmentsService.findTraineeAppointments(+user);
-  }
-  @UseGuards(JwtAuthenticationGuard)
-  @Post('create')
+  //@UseGuards(JwtAuthenticationGuard)
+  @Post()
   async createAppointment(@Body() body: CreateAppointmentDto) {
     return this.appointmentsService.createAppointment(body);
   }
 
-  @Patch('update/:id')
-  updateAppointment(@Param('id') id: string, @Body() Body) {
-    return `appointment ${id} for ${Body.name} updated`;
-  }
+  // @Patch('update/:id')
+  // updateAppointment(@Param('id') id: string, @Body() Body) {
+  //   return `appointment ${id} for ${Body.name} updated`;
+  // }
 
   @Delete('cancel/:id')
   deleteAppointment(@Param('id') id: string) {
-    return `appointment ${id} canceled`;
+    return this.appointmentsService.deleteAppointment(+id);
   }
 }

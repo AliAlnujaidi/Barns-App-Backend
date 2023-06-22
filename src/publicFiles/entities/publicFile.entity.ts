@@ -12,12 +12,9 @@ export class PublicFile {
   @Column()
   public key: string;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   public url: string;
 
-
-  @ManyToOne(() => Barn, (barn: Barn) => barn.photos)
-  @Exclude()
   @Column()
-  barn: number;
+  bucket: string
 }
