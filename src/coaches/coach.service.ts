@@ -20,27 +20,27 @@ export class CoachesService {
   async addAvatar(coachId: number, file: Express.Multer.File) {
     /*  1. check if coach exists
      *  2. check if he has avatar
-     *    2.1. if yes the delete the old avatar and assign the new one
+     *    2.1. if yes then delete the old avatar and assign the new one
      *    2.2. if no then assign the avatar directly
      */
     const coach = await this.coachesRepository.findOneBy({ id: coachId })
     if (!coach)
       return "coach not found"
 
-    if (!coach.avatar) {
-      const fileId = await this.publicFileService.uploadPublicFile(`users-avatars-bucket`, file);
-
-      const avatar = await this.avatarRepository.create({
-        file: fileId
-      });
-      await this.avatarRepository.save(avatar);
-    } else {
-
+    if (coach.avatar) {
+      await this.publicFileService.deleteFile(coach.avatar.id);
+      this.deleteAvatar(coachId);
     }
+    const fileId = await this.publicFileService.uploadPublicFile(`users-avatars-bucket`, file);
 
+    const avatar = await this.avatarRepository.create({
+      file: fileId
+    });
+    await this.avatarRepository.save(avatar);
     await this.coachesRepository.update(coachId, {
       avatar: avatar
-    })
+    });
+
     return avatar
   }
 
@@ -48,7 +48,6 @@ export class CoachesService {
     const coach = this.coachesRepository.findOneBy({ id });
     await this.publicFileService.deleteFile((await coach).avatar.id)
     await this.avatarRepository.delete((await coach).avatar);
-
   }
 
   async findCoach(id: number) {
