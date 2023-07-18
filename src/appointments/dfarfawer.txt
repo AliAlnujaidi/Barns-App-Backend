@@ -40,3 +40,93 @@ body {
 .bar:hover {
   flex-grow: var(--scale);
 }
+
+------------------------------****************************************************
+***********************************************************************************
+***********************************************************************************
+
+import React from 'react';
+import {
+  Chart as ChartJS,
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend,
+} from 'chart.js';
+import { Bar } from 'react-chartjs-2';
+
+ChartJS.register(
+  CategoryScale,
+  LinearScale,
+  BarElement,
+  Title,
+  Tooltip,
+  Legend
+);
+
+export const options = {
+  indexAxis: 'y' as const,
+  elements: { 
+    bar: { 
+      borderRadius: 6, 
+      borderSkipped: 'middle' 
+    } 
+  },
+  plugins: {
+    legend: {
+      position: 'bottom',
+      onClick: false,
+      labels: {
+        usePointStyle: true,
+      },
+    },
+  },
+  responsive: true,
+  scales: {
+    x: {
+      stacked: true,
+      display: false,
+    },
+    y: {
+      stacked: true,
+      display: false,
+    },
+  },
+};
+
+export const data = {
+  labels: ['Evaluations'],
+  datasets: [
+    {
+      label: 'Approved',
+      data: [65],
+      backgroundColor: '#8EAC50',
+    },
+    {
+      label: 'Rejected',
+      data: [28],
+      backgroundColor: '#F24C3D',
+    },
+    {
+      label: 'Waiting for approval',
+      data: [45],
+      backgroundColor: '#F86F03',
+    },
+    {
+      label: 'Not Evaluated',
+      data: [45],
+      backgroundColor: '#606C5D',
+    },
+  ],
+};
+
+export default function App() {
+  return (
+    <div style={{ width: '400px', height: '400px' }}>
+      <Bar options={options} data={data} />
+    </div>
+  );
+}
+
