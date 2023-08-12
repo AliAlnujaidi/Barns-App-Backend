@@ -6,21 +6,27 @@ import { BarnPhoto } from './barnPhoto.entity';
 
 @Entity()
 export class Barn {
-    @PrimaryGeneratedColumn()
-    public id: number;
-    @Column()
-    name: string;
-    @Column({nullable:true})
-    location: string;
-    @Column({nullable:true})
-    phone: string
+  @PrimaryGeneratedColumn()
+  public id: number;
+  @Column()
+  name: string;
+  @Column({ nullable: true })
+  location: string;
+  @Column({ nullable: true })
+  phone: string;
 
-    @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.barn)
-    public appointments: Appointment[];
-    
-    @OneToMany(() => BarnPhoto, (barnPhoto: BarnPhoto) => barnPhoto.barn, {eager: true, nullable:true})
-    public photos: BarnPhoto[];
+  @Column({ nullable: true })
+  price: number;
 
-    @OneToMany(() => Coach, (coach: Coach) => coach.barn, {eager: true})
-    public coaches: Coach[];
+  @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.barn)
+  public appointments: Appointment[];
+
+  @OneToMany(() => BarnPhoto, (barnPhoto: BarnPhoto) => barnPhoto.barn, {
+    eager: true,
+    nullable: true,
+  })
+  public photos: BarnPhoto[];
+
+  @OneToMany(() => Coach, (coach: Coach) => coach.barn, { eager: true })
+  public coaches: Coach[];
 }

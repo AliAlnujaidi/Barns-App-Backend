@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppointmentsModule } from './appointments/appointments.module';
@@ -11,6 +11,8 @@ import { AuthenticationModule } from './authentication/authentication.module';
 import { MinioClientModule } from './minio/minio-client.module';
 import { PublicFilesModule } from './publicFiles/publicFiles.module';
 import { CoachModule } from './coaches/coach.module';
+import { JWTMiddleware } from './middlewares/JwtMiddleware';
+import { LessonsModule } from './lessons/lessons.module';
 
 @Module({
   imports: [
@@ -32,9 +34,22 @@ import { CoachModule } from './coaches/coach.module';
         JWT_SECRET: Joi.string().required(),
         JWT_EXPIRATION_TIME: Joi.string().required(),
       }),
-      isGlobal: true
-    }), UsersModule, CoachModule, BarnsModule, AuthenticationModule, AppointmentsModule, DatabaseModule, PublicFilesModule],
+      isGlobal: true,
+    }),
+    UsersModule,
+    CoachModule,
+    BarnsModule,
+    AuthenticationModule,
+    AppointmentsModule,
+    DatabaseModule,
+    PublicFilesModule,
+    LessonsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
-export class AppModule { }
+export class AppModule {
+  configure(consumer: MiddlewareConsumer) {
+    consumer.apply(JWTMiddleware).forRoutes('*');
+  }
+}

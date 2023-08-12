@@ -7,12 +7,10 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   app.use(cookieParser());
+  app.enableCors();
+  app.useGlobalPipes(new ValidationPipe({ transform:true}));
 
-  app.useGlobalPipes(new ValidationPipe());
-
-  app.useGlobalInterceptors(new ClassSerializerInterceptor(
-    app.get(Reflector))
-  );
-  await app.listen(3000);
+  app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
+  await app.listen(5000);
 }
 bootstrap();
