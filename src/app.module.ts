@@ -8,11 +8,11 @@ import { DatabaseModule } from './database/database.module';
 import { UsersModule } from './users/users.module';
 import { BarnsModule } from './barns/barns.module';
 import { AuthenticationModule } from './authentication/authentication.module';
-import { MinioClientModule } from './minio/minio-client.module';
+import { MinioClientModule } from './modules/minio/minio-client.module';
 import { PublicFilesModule } from './publicFiles/publicFiles.module';
 import { CoachModule } from './coaches/coach.module';
 import { JWTMiddleware } from './middlewares/JwtMiddleware';
-import { LessonsModule } from './lessons/lessons.module';
+import { LessonsModule } from './modules/lessons/lessons.module';
 
 @Module({
   imports: [
