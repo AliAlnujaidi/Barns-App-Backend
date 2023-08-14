@@ -16,8 +16,8 @@ export class BarnsService {
     @InjectRepository(BarnPhoto)
     private barnPhotoRepository: Repository<BarnPhoto>,
 
-    private readonly publicFileService: PublicFilesService
-  ) { }
+    private readonly publicFileService: PublicFilesService,
+  ) {}
 
   async create(barn: CreateBarnDto) {
     const newBarn = await this.barnRepository.create(barn);
@@ -26,42 +26,40 @@ export class BarnsService {
   }
 
   async addPhotos(barnId: number, file: Express.Multer.File) {
-    if (await this.barnNotExist(barnId))
-      return "barn does not exists"
+    if (await this.barnNotExist(barnId)) return 'barn does not exists';
 
-    const fileId = await this.publicFileService.uploadPublicFile(`barn-${barnId}-bucket`, file);
+    const fileId = await this.publicFileService.uploadPublicFile(
+      `barn-${barnId}-bucket`,
+      file,
+    );
     const photo = await this.barnPhotoRepository.create({
       file: fileId,
-      barn: barnId
+      barn: barnId,
     });
     await this.barnPhotoRepository.save(photo);
-    return photo
+    return photo;
   }
 
   async deletePhotos(barnId: number, photoId: number) {
-    if (await this.barnNotExist(barnId))
-      return "barn does not exists";
+    if (await this.barnNotExist(barnId)) return 'barn does not exists';
 
-    const photo = await this.barnPhotoRepository.findOneBy({ id: photoId })
-    if (!photo)
-      return 'photo not found';
+    const photo = await this.barnPhotoRepository.findOneBy({ id: photoId });
+    if (!photo) return 'photo not found';
 
-    await this.barnPhotoRepository.delete(photo)
+    await this.barnPhotoRepository.delete(photo);
 
     await this.publicFileService.deleteFile(photo.file.id);
 
-    return ' photo deleted'
+    return ' photo deleted';
   }
-
 
   findAll() {
     return this.barnRepository.find();
   }
 
   async findOne(id: number) {
-    const barn = await this.barnRepository.findOneBy({ id })
-    if (!barn)
-      return "barn does not exists"
+    const barn = await this.barnRepository.findOneBy({ id });
+    if (!barn) return 'barn does not exists';
 
     return barn;
   }
@@ -72,22 +70,20 @@ export class BarnsService {
 
   async remove(id: number) {
     const barn = await this.barnRepository.findOneBy({ id: id });
-    if (!barn)
-      return "barn dows not exists"
+    if (!barn) return 'barn dows not exists';
 
     try {
       await this.barnRepository.delete(id);
-      return `${barn.name} successfully deleted`
+      return `${barn.name} successfully deleted`;
     } catch {
-      return "cannot delete barn that has appointments"
+      return 'cannot delete barn that has appointments';
     }
   }
 
   async barnNotExist(id: number) {
-    const barn = await this.barnRepository.findOneBy({ id })
-    if (barn)
-      return false
+    const barn = await this.barnRepository.findOneBy({ id });
+    if (barn) return false;
 
-    return true
+    return true;
   }
 }

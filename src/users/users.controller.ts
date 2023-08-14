@@ -18,6 +18,6 @@ export class UsersController {
 
   @Get(':signup')
   getCoach(@Param('id') user: CreateUserDto) {
-    return this.usersService.createUser(user);
+    //return this.usersService.createUser(user);
   }
 }

@@ -1,4 +1,14 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { BarnsService } from './barns.service';
 import { CreateBarnDto } from './dto/create-barn.dto';
 import { UpdateBarnDto } from './dto/update-barn.dto';
@@ -19,15 +29,17 @@ export class BarnsController {
   //requiere admin
   @Post('photo')
   @UseInterceptors(FileInterceptor('file'))
-  addPhoto(@Body('barn') barn: number, @UploadedFile() file: Express.Multer.File) {
-    return this.barnsService.addPhotos(barn,file);
+  addPhoto(
+    @Body('barn') barn: number,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
+    return this.barnsService.addPhotos(barn, file);
   }
 
   @Delete('photo')
   deletePhotos(@Body('barn') barn: number, @Body('photoId') photoId: number) {
-    return this.barnsService.deletePhotos(barn,photoId);
+    return this.barnsService.deletePhotos(barn, photoId);
   }
-
 
   @Get(':id')
   findOne(@Param('id') id: string) {

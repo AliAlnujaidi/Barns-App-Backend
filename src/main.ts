@@ -8,7 +8,7 @@ async function bootstrap() {
 
   app.use(cookieParser());
   app.enableCors();
-  app.useGlobalPipes(new ValidationPipe({ transform:true}));
+  app.useGlobalPipes(new ValidationPipe({ transform: true }));
 
   app.useGlobalInterceptors(new ClassSerializerInterceptor(app.get(Reflector)));
   await app.listen(5000);
