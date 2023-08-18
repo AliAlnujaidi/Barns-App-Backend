@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Barn } from './entities/barn.entity';
 import { RelationId, Repository } from 'typeorm';
 import { PublicFilesService } from '../publicFiles/publicFiles.service';
-import { PublicFile } from 'src/publicFiles/entities/publicFile.entity';
+import { PublicFile } from 'src/modules/publicFiles/entities/publicFile.entity';
 import { BarnPhoto } from './entities/barnPhoto.entity';
 
 @Injectable()

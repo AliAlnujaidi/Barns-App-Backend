@@ -1,18 +1,25 @@
-import { Barn } from 'src/barns/entities/barn.entity';
-import { Column, Entity, JoinColumn, ManyToOne, OneToMany, OneToOne, PrimaryColumn, PrimaryGeneratedColumn } from 'typeorm';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  OneToMany,
+  OneToOne,
+  PrimaryColumn,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { PublicFile } from 'src/publicFiles/entities/publicFile.entity';
 import { Coach } from './coach.entity';
+import { PublicFile } from 'src/modules/publicFiles/entities/publicFile.entity';
 @Entity()
 export class Avatar {
-    @PrimaryGeneratedColumn()
-    public id: number;
+  @PrimaryGeneratedColumn()
+  public id: number;
 
-    @OneToOne(() => PublicFile, {
-        eager: true,
-        nullable: true
-    })
-    @JoinColumn()
-    file?: PublicFile;
-
+  @OneToOne(() => PublicFile, {
+    eager: true,
+    nullable: true,
+  })
+  @JoinColumn()
+  file?: PublicFile;
 }

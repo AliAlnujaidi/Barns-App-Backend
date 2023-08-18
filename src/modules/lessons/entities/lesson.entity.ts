@@ -10,19 +10,25 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Avatar } from './coachAvatar.entity';
+import { User } from 'src/modules/users/entities/user.entity';
 @Entity()
-export class Coach {
-  @PrimaryColumn()
+export class Lesson {
+  @PrimaryGeneratedColumn()
   public id: number;
 
-  @OneToOne(() => Avatar, {
-    eager: true,
-    nullable: true,
-  })
-  @JoinColumn()
-  avatar?: Avatar;
+  @Column()
+  public length: number;
+
+  @Column()
+  public date: Date;
 
   @ManyToOne(() => Barn, (barn: Barn) => barn.coaches)
   public barn: number;
+
+  @OneToMany(() => User, (user: User) => user.lessons)
+  public trainees: User[];
+
+  @OneToOne(() => User, (user: User) => user.lessons)
+  @JoinColumn()
+  public coach: User;
 }

@@ -1,6 +1,6 @@
-import { Appointment } from 'src/appointments/entities/appointment.entity';
-import { Coach } from 'src/coaches/entities/coach.entity';
-import { PublicFile } from 'src/publicFiles/entities/publicFile.entity';
+import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
+import { Coach } from 'src/modules/coaches/entities/coach.entity';
+import { PublicFile } from 'src/modules/publicFiles/entities/publicFile.entity';
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
 import { BarnPhoto } from './barnPhoto.entity';
 

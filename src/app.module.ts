@@ -1,18 +1,19 @@
 import { MiddlewareConsumer, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { AppointmentsModule } from './appointments/appointments.module';
+import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { ConfigModule } from '@nestjs/config';
 import * as Joi from '@hapi/joi';
 import { DatabaseModule } from './database/database.module';
-import { UsersModule } from './users/users.module';
-import { BarnsModule } from './barns/barns.module';
-import { AuthenticationModule } from './authentication/authentication.module';
+import { UsersModule } from './modules/users/users.module';
+import { BarnsModule } from './modules/barns/barns.module';
+import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { MinioClientModule } from './modules/minio/minio-client.module';
-import { PublicFilesModule } from './publicFiles/publicFiles.module';
-import { CoachModule } from './coaches/coach.module';
+import { PublicFilesModule } from './modules/publicFiles/publicFiles.module';
+import { CoachModule } from './modules/coaches/coach.module';
 import { JWTMiddleware } from './middlewares/JwtMiddleware';
 import { LessonsModule } from './modules/lessons/lessons.module';
+import { LessonsService } from './modules/lessons/lessons.service';
 
 @Module({
   imports: [

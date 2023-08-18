@@ -1,27 +1,36 @@
-import { Barn } from 'src/barns/entities/barn.entity';
-import { User } from 'src/users/entities/user.entity';
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from 'typeorm';
+import { Barn } from 'src/modules/barns/entities/barn.entity';
+import { User } from 'src/modules/users/entities/user.entity';
+import {
+  Column,
+  Entity,
+  JoinColumn,
+  ManyToOne,
+  PrimaryGeneratedColumn,
+} from 'typeorm';
 
 @Entity()
 export class Appointment {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @ManyToOne(() => User, (trainee: User) => trainee.lessons, {eager:true})
+  @ManyToOne(() => User, (trainee: User) => trainee.lessons, { eager: true })
   @Column()
   trainee: number;
 
-  @ManyToOne(() => User, (coach: User) => coach.appointments, {eager:true})
+  @ManyToOne(() => User, (coach: User) => coach.appointments, { eager: true })
   @Column()
   coach: number;
 
-  @Column({nullable:true})
+  @Column({ nullable: true })
   duration: number;
 
-  @Column({nullable: true})
+  @Column({ nullable: true })
   date: Date;
 
-  @ManyToOne(() => Barn, (barn: Barn) => barn.appointments, {eager:true})
+  @Column({ nullable: true })
+  tysognihfpfognfsfpog: string;
+
+  @ManyToOne(() => Barn, (barn: Barn) => barn.appointments, { eager: true })
   @Column()
   barn: number;
 }
