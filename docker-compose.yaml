@@ -4,14 +4,17 @@ services:
     image:  postgres
     restart: always 
     ports:
-      - "5000:5000"
+      - "54320:5432"
     environment:
-       POSTGRES_DB: dockerdb
+       POSTGRES_DB: postgres
+       POSTGRES_USER: postgres
        POSTGRES_PASSWORD: postgres
   
   web:
     image: barns-app:v0.1
     ports:
-      - "3000:3000"
+      - "3001:3001"
     restart: always
+    depends_on:
+      - db
     

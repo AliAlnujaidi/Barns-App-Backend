@@ -16,8 +16,8 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get(':signup')
-  getCoach(@Param('id') user: CreateUserDto) {
+  @Get('signup')
+  getCoach(user: CreateUserDto) {
     //return this.usersService.createUser(user);
   }
 }

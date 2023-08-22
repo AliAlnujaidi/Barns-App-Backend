@@ -8,6 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
+import { Roles } from '../types/roles';
+import { Lesson } from 'src/modules/lessons/entities/lesson.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -19,8 +21,15 @@ export class User {
   @Column()
   lname: string;
 
-  @Column({ nullable: true, default: 'trainee' })
-  role: string;
+  @Column({
+    default: 'trainee',
+    type: 'enum',
+    enum: Roles,
+    enumName: 'role',
+    name: 'role',
+    nullable: false,
+  })
+  role: Roles;
 
   @Column()
   phone: string;
@@ -36,5 +45,5 @@ export class User {
   public appointments: Appointment[];
 
   @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.trainee)
-  public lessons: Appointment[];
+  public lessons: Lesson[];
 }
