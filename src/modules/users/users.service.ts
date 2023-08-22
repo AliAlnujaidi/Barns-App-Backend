@@ -8,32 +8,36 @@ import { LoginUserDto } from './dto/login-user.dto';
 
 @Injectable()
 export class UsersService {
-
   constructor(
     @InjectRepository(User)
-    private usersRepository: Repository<User>
-  ) { }
+    public repository: Repository<User>,
+  ) {}
 
   async getByEmail(email: string) {
-    const user = await this.usersRepository.findBy({ email: email });
+    const user = await this.repository.findBy({ email: email });
     if (user) {
       return user[0];
     }
-    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async getById(id: number) {
-    const user = await this.usersRepository.findOneBy({ id: id });
+    const user = await this.repository.findOneBy({ id: id });
     if (user) {
       return user[0];
     }
-    throw new HttpException('User with this email does not exist', HttpStatus.NOT_FOUND);
+    throw new HttpException(
+      'User with this email does not exist',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   async create(userData: CreateUserDto) {
-    const newUser = await this.usersRepository.create(userData);
-    await this.usersRepository.save(newUser);
+    const newUser = await this.repository.create(userData);
+    await this.repository.save(newUser);
     return newUser;
   }
-
 }

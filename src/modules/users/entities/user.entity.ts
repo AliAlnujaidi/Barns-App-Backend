@@ -8,8 +8,8 @@ import {
   PrimaryGeneratedColumn,
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
-import { Roles } from '../types/roles';
 import { Lesson } from 'src/modules/lessons/entities/lesson.entity';
+import { Roles } from 'src/constants/roles.enum';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
@@ -22,7 +22,7 @@ export class User {
   lname: string;
 
   @Column({
-    default: 'trainee',
+    default: `${Roles.TRAINEE}`,
     type: 'enum',
     enum: Roles,
     enumName: 'role',
