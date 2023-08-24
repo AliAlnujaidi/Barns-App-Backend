@@ -16,8 +16,16 @@ import { LoginUserDto } from './dto/login-user.dto';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get('signup')
-  getCoach(user: CreateUserDto) {
-    //return this.usersService.createUser(user);
+  @Post('signup')
+  createUser(@Body() user: CreateUserDto) {
+    return this.usersService.createUser(user);
+  }
+  @Get(':id')
+  getUserById(@Param('id') id: string) {
+    return this.usersService.getUserById(+id);
+  }
+  @Post('login')
+  loginUser(@Body() user: LoginUserDto) {
+    return this.usersService.loginUser(user);
   }
 }
