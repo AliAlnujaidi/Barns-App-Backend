@@ -1,14 +1,27 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseInterceptors, UploadedFile } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseInterceptors,
+  UploadedFile,
+} from '@nestjs/common';
 import { PublicFilesService } from './publicFiles.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { number } from '@hapi/joi';
 @Controller('publicfiles')
 export class PublicFilesController {
-  constructor(private readonly publicFilesService: PublicFilesService) { }
+  constructor(private readonly publicFilesService: PublicFilesService) {}
 
   @Post()
   @UseInterceptors(FileInterceptor('file'))
-  async create(@Body('bucketName') bucketName: string, @UploadedFile() file: Express.Multer.File) {
+  async create(
+    @Body('bucketName') bucketName: string,
+    @UploadedFile() file: Express.Multer.File,
+  ) {
     // return this.publicFilesService.uploadPublicFile(1,bucketName, file);
   }
 

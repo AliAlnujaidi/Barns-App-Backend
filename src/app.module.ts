@@ -9,7 +9,7 @@ import { BarnsModule } from './modules/barns/barns.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
 import { MinioClientModule } from './modules/minio/minio-client.module';
 import { PublicFilesModule } from './modules/publicFiles/publicFiles.module';
-import { CoachModule } from './modules/coaches/coach.module';
+// import { CoachModule } from './modules/coaches/coach.module';
 import { JWTMiddleware } from './middlewares/JwtMiddleware';
 import { LessonsModule } from './modules/lessons/lessons.module';
 import { LessonsService } from './modules/lessons/lessons.service';
@@ -28,7 +28,7 @@ import { contextMiddleware } from './middlewares/context.middleware';
     }),
     TypeOrmModule.forRoot(configService.getTypeOrmConfig()),
     UsersModule,
-    CoachModule,
+    // CoachModule,
     BarnsModule,
     AuthenticationModule,
     AppointmentsModule,

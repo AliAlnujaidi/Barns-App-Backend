@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import { Exclude } from 'class-transformer';
 import { User } from 'src/modules/users/entities/user.entity';
+import { Appointment } from 'src/modules/appointments/entities/appointment.entity';
 @Entity()
 export class Lesson {
   @PrimaryGeneratedColumn()
@@ -22,13 +23,18 @@ export class Lesson {
   @Column()
   public date: Date;
 
+  @Column()
+  public price: number;
+
   @ManyToOne(() => Barn, (barn: Barn) => barn.coaches)
   public barn: number;
 
-  @OneToMany(() => User, (user: User) => user.lessons)
-  public trainees: User[];
-
-  @OneToOne(() => User, (user: User) => user.lessons)
-  @JoinColumn()
+  @ManyToOne(() => User, (user: User) => user.lessons)
   public coach: User;
+
+  @OneToMany(
+    () => Appointment,
+    (appointment: Appointment) => appointment.lesson,
+  )
+  public appointments: Appointment[];
 }

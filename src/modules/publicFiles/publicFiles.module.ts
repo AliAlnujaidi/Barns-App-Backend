@@ -7,7 +7,8 @@ import { PublicFilesController } from './publicFiles.controller';
 import { MinioModule } from 'nestjs-minio-client';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([PublicFile]),
+  imports: [
+    TypeOrmModule.forFeature([PublicFile]),
     // MinioModule.registerAsync({
     //   imports: [ConfigModule],
     //   useFactory: async (configService: ConfigService) => ({
@@ -18,11 +19,11 @@ import { MinioModule } from 'nestjs-minio-client';
     //     secretKey: configService.get('MINIO_SECRET_KEY'),
     //     region: 'eu-west-1'
     //   }),
-    //   inject: [ConfigService], 
+    //   inject: [ConfigService],
     // }),
   ],
   providers: [PublicFilesService],
   controllers: [PublicFilesController],
-  exports: [PublicFilesService]
+  exports: [PublicFilesService],
 })
 export class PublicFilesModule {}

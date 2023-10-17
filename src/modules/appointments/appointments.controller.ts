@@ -23,13 +23,13 @@ export class AppointmentsController {
     return this.appointmentsService.findAll();
   }
 
-  @Get('/:role/:id')
-  getUserAppointments(@Param('id') id: string, @Param('role') role: string) {
-    return this.appointmentsService.findUserAppointments(+id, role);
+  @Get('/getUserAppointments/:id')
+  getUserAppointments(@Param('id') id: string) {
+    return this.appointmentsService.findUserAppointments(+id);
   }
 
   //@UseGuards(JwtAuthenticationGuard)
-  @Post()
+  @Post('createAppointment')
   async createAppointment(@Body() body: CreateAppointmentDto) {
     return this.appointmentsService.createAppointment(body);
   }

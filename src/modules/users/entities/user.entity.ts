@@ -3,6 +3,7 @@ import {
   Column,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   OneToOne,
   PrimaryGeneratedColumn,
@@ -10,26 +11,14 @@ import {
 import { Exclude } from 'class-transformer';
 import { Lesson } from 'src/modules/lessons/entities/lesson.entity';
 import { Roles } from 'src/constants/roles.enum';
+import { Barn } from 'src/modules/barns/entities/barn.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn()
   public id: number;
 
   @Column()
-  fname: string;
-
-  @Column()
-  lname: string;
-
-  @Column({
-    default: `${Roles.TRAINEE}`,
-    type: 'enum',
-    enum: Roles,
-    enumName: 'role',
-    name: 'role',
-    nullable: false,
-  })
-  role: Roles;
+  name: string;
 
   @Column()
   phone: string;
@@ -41,9 +30,28 @@ export class User {
   @Column()
   password: string;
 
-  @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.coach)
+  @Column({
+    default: `${Roles.TRAINEE}`,
+    type: 'enum',
+    enum: Roles,
+    enumName: 'role',
+    name: 'role',
+    nullable: false,
+  })
+  role: Roles;
+
+  @OneToMany(
+    () => Appointment,
+    (appoinment: Appointment) => appoinment.trainee,
+    { nullable: true },
+  )
   public appointments: Appointment[];
 
-  @OneToMany(() => Appointment, (appoinment: Appointment) => appoinment.trainee)
+  @OneToMany(() => Lesson, (appoinment: Lesson) => appoinment.coach, {
+    nullable: true,
+  })
   public lessons: Lesson[];
+
+  @ManyToOne(() => Barn, (barn: Barn) => barn.coaches, { nullable: true })
+  public barn: Barn;
 }

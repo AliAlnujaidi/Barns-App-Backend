@@ -5,28 +5,20 @@ import { Repository } from 'typeorm';
 import { CreateAppointmentDto } from './dto/create-appointment.dto';
 @Injectable()
 export class AppointmentsService {
+  findAll() {
+    throw new Error('Method not implemented.');
+  }
   constructor(
     @InjectRepository(Appointment)
     private appointmentRepository: Repository<Appointment>,
   ) {}
-  findAll() {
-    return this.appointmentRepository.find();
-  }
 
-  findUserAppointments(id: number, role: string) {
-    if (!role || (role != 'coach' && role != 'trainee')) {
-      return 'role is invalid';
-    }
-    if (role == 'coach') {
-      return this.appointmentRepository.findBy({ coach: id });
-    }
-    if (role == 'trainee') {
-      return this.appointmentRepository.findBy({ trainee: id });
-    }
+  findUserAppointments(id: number) {
+    return this.appointmentRepository.findBy({ trainee: id });
   }
 
   async createAppointment(appointment: CreateAppointmentDto) {
-    const newAppointment = await this.appointmentRepository.create(appointment);
+    const newAppointment = this.appointmentRepository.create(appointment);
     await this.appointmentRepository.save(newAppointment);
     return newAppointment;
   }

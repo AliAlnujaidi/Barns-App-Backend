@@ -1,4 +1,6 @@
+import { AppointmentStatus } from 'src/constants/appointments.enum';
 import { Barn } from 'src/modules/barns/entities/barn.entity';
+import { Lesson } from 'src/modules/lessons/entities/lesson.entity';
 import { User } from 'src/modules/users/entities/user.entity';
 import {
   Column,
@@ -13,24 +15,20 @@ export class Appointment {
   @PrimaryGeneratedColumn()
   public id: number;
 
-  @ManyToOne(() => User, (trainee: User) => trainee.lessons, { eager: true })
+  @Column({
+    default: `${AppointmentStatus.PENDING}`,
+    type: 'enum',
+    enum: AppointmentStatus,
+    enumName: 'status',
+    name: 'status',
+    nullable: false,
+  })
+  public status: AppointmentStatus;
+
+  @ManyToOne(() => User, (user: User) => user.appointments, { eager: true })
   @Column()
-  trainee: number;
+  public trainee: number;
 
-  @ManyToOne(() => User, (coach: User) => coach.appointments, { eager: true })
-  @Column()
-  coach: number;
-
-  @Column({ nullable: true })
-  duration: number;
-
-  @Column({ nullable: true })
-  date: Date;
-
-  @Column({ nullable: true })
-  tysognihfpfognfsfpog: string;
-
-  @ManyToOne(() => Barn, (barn: Barn) => barn.appointments, { eager: true })
-  @Column()
-  barn: number;
+  @ManyToOne(() => Lesson, (lesson: Lesson) => lesson.appointments)
+  public lesson: Lesson;
 }

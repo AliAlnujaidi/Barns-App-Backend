@@ -1,4 +1,11 @@
-import { IsString, IsNotEmpty, MinLength, isString, IsInt, IsDateString } from 'class-validator';
+import {
+  IsString,
+  IsNotEmpty,
+  MinLength,
+  isString,
+  IsInt,
+  IsDateString,
+} from 'class-validator';
 
 export class CreateBarnDto {
   @IsString()
