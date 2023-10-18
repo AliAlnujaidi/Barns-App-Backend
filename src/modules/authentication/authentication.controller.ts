@@ -1,42 +1,24 @@
 import { AuthenticationService } from './authentication.service';
-import {
-  Body,
-  Controller,
-  Delete,
-  Get,
-  HttpCode,
-  HttpStatus,
-  Param,
-  Patch,
-  Post,
-  Req,
-  Res,
-  UseGuards,
-} from '@nestjs/common';
-import { RegisterDto } from './dto/register.dto';
-import JwtAuthenticationGuard from './jwt-authentication.guard';
+import { Body, Controller, Post, Req, Res, UseGuards } from '@nestjs/common';
 import { LoginDto } from './dto/login.dto';
-import { ExtractJwt } from 'passport-jwt';
+import { CreateUserDto } from '../users/dto/create-user.dto';
+import LocalAuthGuard from '../../guards/local-auth.guard';
 
-@Controller('authentication')
+@Controller('auth')
 export class AuthenticationController {
   constructor(private readonly authenticationService: AuthenticationService) {}
 
-  // @Post('register')
-  // async register(@Body() registrationData: RegisterDto) {
-  //   return this.authenticationService.register(registrationData);
-  // }
+  @Post('signup')
+  async signUp(@Body() registrationData: CreateUserDto) {
+    return this.authenticationService.signUpUser(registrationData);
+  }
 
-  // @HttpCode(200)
-  // @Post('login')
-  // async logIn(@Body() loginInfo: LoginDto) {
-  //   const user = this.authenticationService.getAuthenticatedUser(
-  //     loginInfo.email,
-  //     loginInfo.password,
-  //   );
-  //   const access_token = this.authenticationService.getCookieWithJwtToken(
-  //     (await user).id,
-  //   );
-  //   return { access_token };
-  // }
+  @Post('login')
+  async logIn(@Body() loginInfo: LoginDto) {
+    const access_token = await this.authenticationService.authenticateUser(
+      loginInfo.email,
+      loginInfo.password,
+    );
+    return { access_token };
+  }
 }

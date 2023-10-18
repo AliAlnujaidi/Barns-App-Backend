@@ -10,7 +10,6 @@ import { UpdateUserDto } from './dto/update-user.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { LoginUserDto } from './dto/login-user.dto';
 import * as bcrypt from 'bcrypt';
 
 @Injectable()
@@ -21,8 +20,6 @@ export class UsersService {
   ) {}
 
   async createUser(userData: CreateUserDto) {
-    const hashedPassword = await bcrypt.hash(userData.password, 10);
-    userData.password = hashedPassword;
     const newUser = await this.repository.create(userData);
     await this.repository.save(newUser);
     return newUser;
@@ -35,16 +32,11 @@ export class UsersService {
     }
     return user;
   }
-  async loginUser(userData: LoginUserDto) {
-    const user = await this.repository.findOne({
-      where: { email: userData.email },
-    });
+
+  async getUserByEmail(email: string) {
+    const user = await this.repository.findOneBy({ email: email });
     if (!user) {
       throw new NotFoundException('User with this email does not exist');
-    }
-    const isMatch = await bcrypt.compare(userData.password, user.password);
-    if (!isMatch) {
-      throw new UnauthorizedException('Wrong credentials provided');
     }
     return user;
   }

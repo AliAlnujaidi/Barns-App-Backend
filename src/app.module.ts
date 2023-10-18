@@ -17,9 +17,8 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { config } from 'dotenv';
 import { configService } from './config/config.service';
 import { APP_GUARD } from '@nestjs/core';
-import { RolesGuard } from './guards/role.guard';
+
 import { contextMiddleware } from './middlewares/context.middleware';
-// import { RolesGuard } from './guards/role.guard';
 
 @Module({
   imports: [
@@ -38,10 +37,10 @@ import { contextMiddleware } from './middlewares/context.middleware';
   controllers: [AppController],
   providers: [
     AppService,
-    {
-      provide: APP_GUARD,
-      useClass: RolesGuard,
-    },
+    // {
+    //   provide: APP_GUARD,
+    //   useClass: RolesGuard,
+    // },
   ],
 })
 export class AppModule {

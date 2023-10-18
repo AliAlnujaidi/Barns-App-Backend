@@ -61,7 +61,6 @@ export class PublicFilesService {
     } catch (error) {
       return error;
     }
-    console.log('*************');
     const newFile = await this.publicFilesRepository.create({
       key: key,
       url: 'unique url....',
