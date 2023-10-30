@@ -3,7 +3,6 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AppointmentsModule } from './modules/appointments/appointments.module';
 import { ConfigModule } from '@nestjs/config';
-import * as Joi from '@hapi/joi';
 import { UsersModule } from './modules/users/users.module';
 import { BarnsModule } from './modules/barns/barns.module';
 import { AuthenticationModule } from './modules/authentication/authentication.module';
@@ -19,6 +18,8 @@ import { configService } from './config/config.service';
 import { APP_GUARD } from '@nestjs/core';
 
 import { contextMiddleware } from './middlewares/context.middleware';
+import RolesGuard from './guards/role.guard';
+import { RolesGuards } from './decorators/roles.decorator';
 
 @Module({
   imports: [
@@ -35,13 +36,7 @@ import { contextMiddleware } from './middlewares/context.middleware';
     LessonsModule,
   ],
   controllers: [AppController],
-  providers: [
-    AppService,
-    // {
-    //   provide: APP_GUARD,
-    //   useClass: RolesGuard,
-    // },
-  ],
+  providers: [AppService],
 })
 export class AppModule {
   configure(consumer: MiddlewareConsumer) {

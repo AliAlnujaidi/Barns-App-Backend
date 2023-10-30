@@ -10,8 +10,8 @@ import {
   Request,
 } from '@nestjs/common';
 import { UsersService } from './users.service';
-import { RolesGuards } from 'src/decorators/roles.decorator';
 import { Roles } from 'src/constants/roles.enum';
+import RolesGuard from 'src/guards/role.guard';
 
 @Controller('users')
 export class UsersController {

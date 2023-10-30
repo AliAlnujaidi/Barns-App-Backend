@@ -22,6 +22,7 @@ class ConfigService {
     return {
       secret: this.getValue('JWT_SECRET'),
       expiresIn: this.getValue('JWT_EXPIRES_IN'),
+      refreshTokenSecret: this.getValue('JWT_REFRESH_TOKEN_SECRET'),
       refreshExpiresIn: this.getValue('JWT_REFRESH_EXPIRES_IN'),
     };
   }

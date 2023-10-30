@@ -21,7 +21,7 @@ export class AuthenticationService {
         password: hashedPassword,
       });
       createdUser.password = undefined;
-      return await this.createJWT(createdUser.id);
+      return await this.getJwtAccessToken(createdUser.id);
     } catch (error) {
       throw new HttpException(
         'Something went wrong',
@@ -34,11 +34,20 @@ export class AuthenticationService {
     try {
       const user = await this.usersService.getUserByEmail(email);
       await this.verifyPassword(plainTextPassword, user.password);
+
+      const access_token = await this.getJwtAccessToken(user.id);
+
+      const refresh_token = await this.getJwtRefreshToken(user.id);
+      await this.usersService.setCurrentRefreshToken(refresh_token, user.id);
+
       user.password = undefined;
-      return await this.createJWT(user.id);
+      user.currentHashedRefreshToken = undefined;
+
+      return { user, access_token, refresh_token };
     } catch (error) {
       throw new HttpException(
-        'Wrong credentials provided',
+        'Wrong credentials provided' + error.message,
+
         HttpStatus.BAD_REQUEST,
       );
     }
@@ -60,7 +69,7 @@ export class AuthenticationService {
     }
   }
 
-  public createJWT(userId: number) {
+  public getJwtAccessToken(userId: number) {
     const payload: TokenPayload = { userId };
     const token = this.jwtService.sign(payload);
     return token;
@@ -68,5 +77,16 @@ export class AuthenticationService {
 
   public getCookieForLogOut() {
     return `Authentication=; HttpOnly; Path=/; Max-Age=0`;
+  }
+
+  public getJwtRefreshToken(userId: number) {
+    const payload: TokenPayload = { userId };
+
+    const token = this.jwtService.sign(payload, {
+      secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
+      expiresIn: `${this.configService.get('JWT_REFRESH_EXPIRES_IN')}s`,
+    });
+
+    return token;
   }
 }

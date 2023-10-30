@@ -54,4 +54,10 @@ export class User {
 
   @ManyToOne(() => Barn, (barn: Barn) => barn.coaches, { nullable: true })
   public barn: Barn;
+
+  @Column({
+    nullable: true,
+  })
+  @Exclude()
+  public currentHashedRefreshToken?: string;
 }

@@ -65,7 +65,7 @@ const RolesGuard = (roles: Roles[]): Type<CanActivate> => {
       if (!allowedRoles) {
         return true;
       }
-
+      console.log('role guard triggered');
       const request = context.switchToHttp().getRequest();
       const userId = request.user.id;
 
