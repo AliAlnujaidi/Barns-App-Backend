@@ -11,6 +11,9 @@ class ConfigService {
     }
     return value;
   }
+  public getFrontEndURL() {
+    return this.getValue('FRONTEND_URL', true);
+  }
   public ensureValues(keys: string[]) {
     keys.forEach((k) => this.getValue(k, true));
     return this;

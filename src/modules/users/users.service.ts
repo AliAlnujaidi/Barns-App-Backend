@@ -11,6 +11,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './entities/user.entity';
 import { Repository } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { use } from 'passport';
 
 @Injectable()
 export class UsersService {
@@ -37,11 +38,11 @@ export class UsersService {
     if (!user.currentHashedRefreshToken) {
       return;
     }
+
     const isRefreshTokenMatching = await bcrypt.compare(
       refreshToken,
       user.currentHashedRefreshToken,
     );
-
     if (isRefreshTokenMatching) {
       return user;
     }
@@ -67,5 +68,9 @@ export class UsersService {
       throw new NotFoundException('User with this email does not exist');
     }
     return user;
+  }
+
+  async getAllUsers() {
+    return await this.repository.find();
   }
 }

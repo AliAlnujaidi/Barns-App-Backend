@@ -19,7 +19,6 @@ export class BarnsController {
 
   @Get()
   findAll() {
-    console.log('barns.controller.ts: findAll()');
     return this.barnsService.findAll();
   }
   //requiere admin

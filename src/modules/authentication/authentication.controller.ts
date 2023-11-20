@@ -15,7 +15,7 @@ import JwtRefreshGuard from 'src/guards/jwt-refresh.guard';
 import JwtAuthGuard from 'src/guards/jwt-auth.guard';
 import { UsersService } from '../users/users.service';
 import RequestWithUser from './dto/requestWithUser.interface';
-
+import { Response } from 'express';
 @Controller('auth')
 export class AuthenticationController {
   constructor(
@@ -29,13 +29,12 @@ export class AuthenticationController {
   }
 
   @Post('login')
-  async logIn(@Body() loginInfo: LoginDto) {
-    const { user, refresh_token, access_token } =
-      await this.authenticationService.authenticateUser(
-        loginInfo.email,
-        loginInfo.password,
-      );
-    return { ...user, access_token, refresh_token };
+  async logIn(@Res() response: Response, @Body() loginInfo: LoginDto) {
+    const user = await this.authenticationService.authenticateUser(
+      loginInfo.email,
+      loginInfo.password,
+    );
+    response.setHeader('Set-Cookie', user.refresh_token_cookie).json(user);
   }
 
   @UseGuards(JwtRefreshGuard)
@@ -45,8 +44,10 @@ export class AuthenticationController {
       request.user.id,
     );
     request.user.access_token = access_token;
+    console.log(request.user);
     return request.user;
   }
+
   @UseGuards(JwtAuthGuard)
   @Post('logout')
   async logOut(@Req() request: RequestWithUser) {

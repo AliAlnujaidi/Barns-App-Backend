@@ -37,13 +37,15 @@ export class AuthenticationService {
 
       const access_token = await this.getJwtAccessToken(user.id);
 
-      const refresh_token = await this.getJwtRefreshToken(user.id);
+      const { refresh_token_cookie, refresh_token } =
+        await this.getJwtRefreshToken(user.id);
+
       await this.usersService.setCurrentRefreshToken(refresh_token, user.id);
 
       user.password = undefined;
       user.currentHashedRefreshToken = undefined;
 
-      return { user, access_token, refresh_token };
+      return { user, access_token, refresh_token_cookie };
     } catch (error) {
       throw new HttpException(
         'Wrong credentials provided' + error.message,
@@ -82,11 +84,14 @@ export class AuthenticationService {
   public getJwtRefreshToken(userId: number) {
     const payload: TokenPayload = { userId };
 
-    const token = this.jwtService.sign(payload, {
+    const refresh_token = this.jwtService.sign(payload, {
       secret: this.configService.get('JWT_REFRESH_TOKEN_SECRET'),
       expiresIn: `${this.configService.get('JWT_REFRESH_EXPIRES_IN')}s`,
     });
 
-    return token;
+    const refresh_token_cookie = `refresh_token=${refresh_token}; HttpOnly; SameSite=strict; Path=/; Max-Age=${this.configService.get(
+      'JWT_EXPIRATION_TIME',
+    )}`;
+    return { refresh_token_cookie, refresh_token };
   }
 }

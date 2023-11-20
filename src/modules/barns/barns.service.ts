@@ -53,8 +53,8 @@ export class BarnsService {
     return ' photo deleted';
   }
 
-  findAll() {
-    return this.barnRepository.find();
+  async findAll() {
+    return await this.barnRepository.find();
   }
 
   async findOne(id: number) {
